@@ -1,4 +1,5 @@
 ﻿using DevExpress.DashboardCommon;
+using DevExpress.DashboardWin;
 using DevExpress.XtraEditors;
 using System;
 using System.Windows.Forms;
