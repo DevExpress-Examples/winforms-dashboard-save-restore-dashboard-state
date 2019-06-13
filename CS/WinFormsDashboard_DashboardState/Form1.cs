@@ -11,7 +11,7 @@ namespace WinFormsDashboard_DashboardState
         DashboardState dState = new DashboardState();
         public Form1()
         {
-            InitializeComponent();
+            InitializeComponent(); 
             dashboardViewer1.DashboardLoaded += DashboardViewer1_DashboardLoaded;
             dashboardViewer1.SetInitialDashboardState += DashboardViewer1_SetInitialDashboardState;
             dashboardViewer1.ConfigureDataConnection += DashboardViewer1_ConfigureDataConnection;
