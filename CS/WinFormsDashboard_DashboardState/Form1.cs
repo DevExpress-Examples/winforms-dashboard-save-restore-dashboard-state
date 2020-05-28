@@ -10,12 +10,11 @@ namespace WinFormsDashboard_DashboardState
 {
     public partial class Form1 : XtraForm
     {
-        DashboardState dState = new DashboardState();
+        public static readonly string PropertyName = "DashboardState";
         const string path = @"Dashboards\SampleDashboardWithState.xml";
         public Form1()
         {
             InitializeComponent();
-            dashboardViewer1.DashboardLoaded += DashboardViewer1_DashboardLoaded;
             dashboardViewer1.SetInitialDashboardState += DashboardViewer1_SetInitialDashboardState;
             dashboardViewer1.ConfigureDataConnection += DashboardViewer1_ConfigureDataConnection;
             dashboardViewer1.CustomizeDashboardTitle += DashboardViewer1_CustomizeDashboardTitle;
@@ -38,31 +37,25 @@ namespace WinFormsDashboard_DashboardState
         {
             dashboardViewer1.LoadDashboard(path);
         }
-
-        private void DashboardViewer1_DashboardLoaded(object sender, DevExpress.DashboardWin.DashboardLoadedEventArgs e)
-        {
-            XElement data = e.Dashboard.UserData;
-            if (data != null)
-            {
-                if (data.Element("DashboardState") != null)
-                {
-                    XDocument dStateDocument = XDocument.Parse(data.Element("DashboardState").Value);
-                    dState.LoadFromXml(XDocument.Parse(data.Element("DashboardState").Value));
-                }
+        DashboardState GetStateFromCustomProperty() {
+            var customPropertyValue = dashboardViewer1.Dashboard.CustomProperties.GetValue(PropertyName);
+            DashboardState state = new DashboardState();
+            if(!string.IsNullOrEmpty(customPropertyValue)) {
+                var xmlStateEl = XDocument.Parse(customPropertyValue);
+                state.LoadFromXml(xmlStateEl);
             }
+            return state;
         }
-
         private void DashboardViewer1_SetInitialDashboardState(object sender, SetInitialDashboardStateEventArgs e)
-        {
-            e.InitialState = dState;
+        {   
+            var state = GetStateFromCustomProperty();
+            e.InitialState = state;
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            dState = dashboardViewer1.GetDashboardState();
-            XElement userData = new XElement("Root",
-                new XElement("DateModified", DateTime.Now),
-                new XElement("DashboardState", dState.SaveToXml().ToString(SaveOptions.DisableFormatting)));
-            dashboardViewer1.Dashboard.UserData = userData;
+            var state = dashboardViewer1.GetDashboardState();
+            var stateValue = state.SaveToXml().ToString(SaveOptions.DisableFormatting);
+            dashboardViewer1.Dashboard.CustomProperties.SetValue("DashboardState", stateValue);
             dashboardViewer1.Dashboard.SaveToXml(path);
         }
 

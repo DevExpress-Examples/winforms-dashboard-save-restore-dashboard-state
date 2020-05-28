@@ -9,12 +9,10 @@ Imports System.Xml.Linq
 Namespace WinFormsDashboard_DashboardState
 	Partial Public Class Form1
 		Inherits XtraForm
-
-		Private dState As New DashboardState()
+		Public Shared ReadOnly PropertyName As String = "DashboardState"
 		Private Const path As String = "Dashboards\SampleDashboardWithState.xml"
 		Public Sub New()
 			InitializeComponent()
-			AddHandler dashboardViewer1.DashboardLoaded, AddressOf DashboardViewer1_DashboardLoaded
 			AddHandler dashboardViewer1.SetInitialDashboardState, AddressOf DashboardViewer1_SetInitialDashboardState
 			AddHandler dashboardViewer1.ConfigureDataConnection, AddressOf DashboardViewer1_ConfigureDataConnection
 			AddHandler dashboardViewer1.CustomizeDashboardTitle, AddressOf DashboardViewer1_CustomizeDashboardTitle
@@ -24,9 +22,8 @@ Namespace WinFormsDashboard_DashboardState
 
 		Private Sub DashboardViewer1_CustomizeDashboardTitle(ByVal sender As Object, ByVal e As CustomizeDashboardTitleEventArgs)
 			Dim resetStateItem As DashboardToolbarItem = New DashboardToolbarItem("Reset State", New Action(Of DashboardToolbarItemClickEventArgs)(Sub(args)
-				dashboardViewer1.SetDashboardState(CreateDashboardState())
-
-			End Sub))
+																																					   dashboardViewer1.SetDashboardState(CreateDashboardState())
+																																				   End Sub))
 			resetStateItem.Caption = "Reset Dashboard State"
 			e.Items.Add(resetStateItem)
 		End Sub
@@ -34,24 +31,22 @@ Namespace WinFormsDashboard_DashboardState
 		Private Sub Form1_Load(ByVal sender As Object, ByVal e As EventArgs)
 			dashboardViewer1.LoadDashboard(path)
 		End Sub
-
-		Private Sub DashboardViewer1_DashboardLoaded(ByVal sender As Object, ByVal e As DevExpress.DashboardWin.DashboardLoadedEventArgs)
-			Dim data As XElement = e.Dashboard.UserData
-			If data IsNot Nothing Then
-				If data.Element("DashboardState") IsNot Nothing Then
-					Dim dStateDocument As XDocument = XDocument.Parse(data.Element("DashboardState").Value)
-					dState.LoadFromXml(XDocument.Parse(data.Element("DashboardState").Value))
-				End If
+		Private Function GetStateFromCustomProperty() As DashboardState
+			Dim customPropertyValue = dashboardViewer1.Dashboard.CustomProperties.GetValue(PropertyName)
+			Dim state = New DashboardState()
+			If (Not String.IsNullOrEmpty(customPropertyValue)) Then
+				Dim xmlStateEl = XDocument.Parse(customPropertyValue)
+				state.LoadFromXml(xmlStateEl)
 			End If
-		End Sub
-
+			Return state
+		End Function
 		Private Sub DashboardViewer1_SetInitialDashboardState(ByVal sender As Object, ByVal e As SetInitialDashboardStateEventArgs)
-			e.InitialState = dState
+			e.InitialState = GetStateFromCustomProperty()
 		End Sub
 		Private Sub Form1_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs)
-			dState = dashboardViewer1.GetDashboardState()
-			Dim userData As New XElement("Root", New XElement("DateModified", Date.Now), New XElement("DashboardState", dState.SaveToXml().ToString(SaveOptions.DisableFormatting)))
-			dashboardViewer1.Dashboard.UserData = userData
+			Dim state = dashboardViewer1.GetDashboardState()
+			Dim stateValue = state.SaveToXml().ToString(SaveOptions.DisableFormatting)
+			dashboardViewer1.Dashboard.CustomProperties.SetValue("DashboardState", stateValue)
 			dashboardViewer1.Dashboard.SaveToXml(path)
 		End Sub
 
