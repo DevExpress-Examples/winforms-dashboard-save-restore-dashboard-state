@@ -16,7 +16,7 @@ When the application starts, the DashboardViewer control loads the dashboard and
 
 The dashboard state is restored using the **GetStateFromCustomProperty** method in the [DashboardViewer.SetInitialDashboardState](https://docs.devexpress.com/Dashboard/DevExpress.DashboardWin.DashboardViewer.SetInitialDashboardState) event handler.
 
-You can click the **Reset Dashboard State** button to create and apply the [dashboard state](https://docs.devexpress.com/Dashboard/DevExpress.DashboardCommon.DashboardState) at runtime.
+You can click the **Reset Dashboard State** button to apply the [dashboard state](https://docs.devexpress.com/Dashboard/DevExpress.DashboardCommon.DashboardState) created at runtime.
 
 
 **See also:**
