@@ -4,7 +4,7 @@
 * [Form1.cs](./CS/WinFormsDashboard_DashboardState/Form1.cs) (VB: [Form1.vb](./VB/WinFormsDashboard_DashboardState/Form1.vb))
 <!-- default file list end -->
 
-# How to Save and Restore the Dashboard State
+# Dashboard for WinForms - How to Save and Restore the Dashboard State
 
 This example demonstrates how to manage dashboard state to save and restore user selections.
 
