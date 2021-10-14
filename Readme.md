@@ -3,11 +3,6 @@
 [![](https://img.shields.io/badge/Open_in_DevExpress_Support_Center-FF7200?style=flat-square&logo=DevExpress&logoColor=white)](https://supportcenter.devexpress.com/ticket/details/T830439)
 [![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
 <!-- default badges end -->
-<!-- default file list -->
-*Files to look at*:
-
-* [Form1.cs](./CS/WinFormsDashboard_DashboardState/Form1.cs) (VB: [Form1.vb](./VB/WinFormsDashboard_DashboardState/Form1.vb))
-<!-- default file list end -->
 
 # Dashboard for WinForms - How to Save and Restore the Dashboard State
 
@@ -22,6 +17,12 @@ When the application starts, the DashboardViewer control loads the dashboard and
 The dashboard state is restored using the **GetStateFromCustomProperty** method in the [DashboardViewer.SetInitialDashboardState](https://docs.devexpress.com/Dashboard/DevExpress.DashboardWin.DashboardViewer.SetInitialDashboardState) event handler.
 
 You can click the **Reset Dashboard State** button to apply the [dashboard state](https://docs.devexpress.com/Dashboard/DevExpress.DashboardCommon.DashboardState) created at runtime.
+
+<!-- default file list -->
+## Files to look at
+
+* [Form1.cs](./CS/WinFormsDashboard_DashboardState/Form1.cs) (VB: [Form1.vb](./VB/WinFormsDashboard_DashboardState/Form1.vb))
+<!-- default file list end -->
 
 ## Documentation
 
