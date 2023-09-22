@@ -19,7 +19,7 @@ The dashboard state is restored using the **GetStateFromCustomProperty** method 
 You can click the **Reset Dashboard State** button to apply the [dashboard state](https://docs.devexpress.com/Dashboard/DevExpress.DashboardCommon.DashboardState) created at runtime.
 
 <!-- default file list -->
-## Files to look at
+## Files to Review
 
 * [Form1.cs](./CS/WinFormsDashboard_DashboardState/Form1.cs) (VB: [Form1.vb](./VB/WinFormsDashboard_DashboardState/Form1.vb))
 <!-- default file list end -->
